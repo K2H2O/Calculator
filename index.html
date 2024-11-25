@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scientific Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <article class="calculator">
+    <input type="text" id="result" disabled>
+    <section class="buttons">
+      <button class="operator" value="+">+</button>
+      <button class="operator" value="-">-</button>
+      <button class="operator" value="*">*</button>
+      <button class="operator" value="/">/</button>
+
+      <button class="operator" value="sin">sin</button>
+      <button class="operator" value="cos">cos</button>
+      <button class="operator" value="tan">tan</button>
+      <button class="operator" value="log">log</button>
+      <button class="operator" value="ln">ln</button>
+      <button class="operator" value="^">^</button>
+
+      <button class="clear" value="C">C</button>
+      <button class="equal" value="=">=</button>
+
+      <button value="9">9</button>
+      <button value="8">8</button>
+      <button value="7">7</button>
+      <button value="6">6</button>
+      <button value="5">5</button>
+      <button value="4">4</button>
+      <button value="3">3</button>
+      <button value="2">2</button>
+      <button value="1">1</button>
+      <button value="0">0</button>
+      <button value=".">.</button>
+    </section>
+  </article>
+
+  <script>
+    const result = document.getElementById('result');
+    const buttons = document.querySelectorAll('button');
+
+    let currentInput = '';
+    let operator = '';
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const value = button.value;
+
+        if (value === 'C') {
+          currentInput = '';
+          operator = '';
+          result.value = '';
+        } else if (value === '=') {
+          if (operator) {
+            const [num1, num2] = currentInput.split(operator);
+            const resultValue = operate(Number(num1), Number(num2), operator);
+            result.value = resultValue;
+            currentInput = resultValue.toString();
+            operator = '';
+          }
+        } else if (['+', '-', '*', '/', 'sin', 'cos', 'tan', 'log', 'ln', '^'].includes(value)) {
+          operator = value;
+          currentInput += value;
+          result.value += value;
+        } else {
+          currentInput += value;
+          result.value += value;
+        }
+      });
+    });
+
+    function operate(num1, num2, operator) {
+      switch (operator) {
+        case '+':
+          return num1 + num2;
+        case '-':
+          return num1 - num2;
+        case '*':
+          return num1 * num2;
+        case '/':
+          if (num2 === 0) {
+            return  
+     "Error: Division by zero";
+          }
+          return num1 / num2;  
+    
+        case 'sin':
+          return Math.sin(num1 * Math.PI / 180); // Convert degrees to radians
+        case 'cos':
+          return Math.cos(num1 * Math.PI / 180); // Convert degrees to radians
+        case 'tan':
+          return Math.tan(num1 * Math.PI / 180); // Convert degrees to radians
+        case 'log':
+          return Math.log10(num1);
+        case 'ln':
+          return Math.log(num1);
+        case '^':
+          return Math.pow(num1, num2);
+        default:
+          return 0;
+      }
+    }
+  </script>
+</body>
+</html>
